@@ -5,7 +5,7 @@ Siege is an http load testing and benchmark utility. It was designed to let web 
 
 You can find more information about that program at [https://www.joedog.org/siege-home/](https://www.joedog.org/siege-home/)
 
-This project is about wrapping the command-line use of thesiege program so that other automated tools can use the features of Siege to load-test websites via an API. It also gives me the perfect excuse to use .Net Core since Siege does not run (well) on Windows (via Cygwin)...
+This project is about wrapping the command-line use of the siege program so that other automated tools can use the features of Siege to load-test websites via an API. It also gives me the perfect excuse to use .Net Core since Siege does not run (well) on Windows (via Cygwin)...
 
 License
 =======
