@@ -24,3 +24,12 @@ If any entity institutes patent litigation - including cross-claim or countercla
 your contribution is either your original creation, based upon previous work that, to the best of your knowledge, is covered under an appropriate open source license and you have the right under that license to submit that work with modifications, whether created in whole or in part by you, or you have clearly identified the source of the contribution and any license or other restriction (like related patents, trademarks, and license agreements) of which you are personally aware.
 
 **If your employer has rights to intellectual property that you create, you represent that you have received permission to make the contribution on behalf of that employer, or that your employer has waived such rights for the contribution.**
+
+## Disclaimers of Warranty and Liability.
+
+Subject to your representations above, this project acknowledges that you are providing your contribution AS IS, WITHOUT WARRANTY OF ANY KIND AND THAT YOU DISCLAIM THE WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+
+YOU FURTHER AGREE THAT NEITHER YOU NOR THIS PROJECT SHALL BE LIABLE TO
+ANYONE FOR ANY CONSEQUENTIAL, SPECIAL, INCIDENTAL OR INDIRECT DAMAGES OF ANY
+KIND ARISING OUT OF THE USE OF YOUR CONTRIBUTIONS, EVEN IF THE USER HAS BEEN
+ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
