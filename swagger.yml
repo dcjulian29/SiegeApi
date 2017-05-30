@@ -1,0 +1,188 @@
+swagger: "2.0"
+info:
+  title: "Siege API"
+  description: "This API is used to interact with a Seige load testing process"
+  version: "1.0.0"
+consumes: 
+- "application/json"
+produces:
+- "application/json"
+paths:
+  /job:
+    get:
+      summary: "Return a list of Jobs"
+      responses:
+        200:
+         description: "Successful Operation"
+         schema:
+           $ref: "#/definitions/JobList"
+    post:
+      summary: "Add a new job to Siege"
+      parameters:
+      - in: "body"
+        name: "Job"
+        description: "Job object that needs to be added to Siege"
+        required: true
+        schema:
+          $ref: "#/definitions/Job"
+      responses:
+        201:
+          description: "Job Created"
+          schema:
+            $ref: "#/definitions/CreatedJob"
+        400:
+          description: "Invalid Input"
+  /job/{Id}:
+    get:
+      summary: "Return Job Results"
+      parameters:
+      - name: "Id"
+        in: "path"
+        description: "The Id of job to return results"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Successful Operation"
+          schema:
+            $ref: "#/definitions/JobResult"
+        400:
+          description: "Invalid Id Supplied"
+        404:
+          description: "Job Not Found"
+        405:
+          description: "Job Has Not Finished"
+    delete:
+      summary: "Deletes a Job"
+      parameters:
+      - name: "Id"
+        in: "path"
+        description: "The job Id to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        400:
+          description: "Invalid Id Supplied"
+        404:
+          description: "Job Not Found"
+  /status/{Id}/:
+    get:
+      summary: "Check the status of a Job"
+      parameters:
+      - name: "Id"
+        in: "path"
+        description: "The Id of Job to get the status"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Successful Operation"
+          schema:
+            $ref: "#/definitions/JobStatus"
+        400:
+          description: "Invalid Id Supplied"
+        404:
+          description: "Job Not Found"
+definitions:
+  Job:
+    type: object
+    properties:
+      Users:
+        type: integer
+        description: "The number of simulated users."
+        minimum: 1
+        maximum: 255
+      Delay:
+        type: integer
+        description: "Random interval beween 0 and number that each simulated user will sleep between request"
+        default: 1
+      Time:
+        type: integer
+        description: "The number of seconds to run."
+        minimum: 1
+      IsSitemap:
+        type: boolean
+        description: "Is the provided URLs sitemaps that need to be parsed to get final list of URLs"
+        default: false
+      Urls:
+        type: "array"
+        items:
+          type: "string"
+
+  CreatedJob:
+    type: object
+    properties:
+      Id:
+        type: integer
+        format: int64
+
+  JobStatus:
+      type: string
+      description: "Job Status"
+      enum:
+      - "Queued"
+      - "Running"
+      - "Finished"
+
+  JobResult:
+    type: object
+    properties:
+      Transactions:
+        type: integer
+        format: int32
+        description: "The number of server hits."
+      Elapsed Time:
+        type: number
+        format: float
+        description: "The duration of the entire siege test in seconds."
+      Data Transferred:
+        type: number
+        format: float
+        description: "The sum of data transferred to every siege simulated user"
+      Response Time:
+        type: number
+        format: float
+        description: "The average time it took to respond to each simulated user's requests."
+      Transactfion Rate:
+        type: number
+        format: float
+        description: "The average number of transactions the server was able to handle per second"
+      Throughput:
+        type: number
+        format: float
+        description: "The average number of bytes transferred every second from the server to all the simulated users."
+      Concurrency:
+        type: number
+        format: float
+        description: "The average number of simultaneous connections, a number which rises as server performance decreases."
+      Successful Transactions:
+        type: integer
+        format: int32
+        description: "The number of times the server returned a code less than 400."
+      Failed Transactions:
+        type: integer
+        format: int32
+        description: "The number of times the server returned a code greater than 400"
+      Longest Transaction:
+        type: number
+        format: float
+        description: "The duration of the longest transaction in seconds"
+      Shortest Transaction:
+        type: number
+        format: float
+        description: "The duration of the shortest transaction in seconds"
+
+  JobList:
+    type: array
+    description: "A list of Recent Jobs"
+    items:
+      type: object
+      properties:
+        Id:
+          type: integer
+          format: int64
+        Status:
+          $ref: '#/definitions/JobStatus'
