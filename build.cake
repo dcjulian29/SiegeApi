@@ -1,7 +1,7 @@
 var target = Argument("target", "Default");
 
 if (TeamCity.IsRunningOnTeamCity) {
-    target = "UnitTests";
+    target = "UnitTest";
 }
 
 var configuration = Argument("configuration", "Release");
