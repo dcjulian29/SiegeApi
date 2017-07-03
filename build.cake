@@ -43,7 +43,6 @@ Task("Init")
     {
         CreateDirectory(buildDirectory);
         CreateDirectory(outputDirectory);
-        CreateDirectory(outputDirectory + "/bin");
     });
 
 Task("Version")
