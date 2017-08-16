@@ -51,7 +51,6 @@ Task("Version")
     {
         Information("MARKING THIS BUILD AS VERSION " + version);
 
-        
         CreateAssemblyInfo(buildDirectory + "/CommonAssemblyInfo.cs", new AssemblyInfoSettings {
             Version = version,
             FileVersion = version,
