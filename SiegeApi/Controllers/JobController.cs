@@ -52,8 +52,9 @@ namespace SiegeApi.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]Job job)
+        public int Post([FromBody]Job job)
         {
+            return 0;
         }
     }
 }
