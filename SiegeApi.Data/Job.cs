@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
@@ -21,7 +23,8 @@ namespace SiegeApi.Data
             Delay = 1;
             Time = 60;
             IsSitemap = false;
-            Urls = new List<string>();
+            Urls = new List<Url>();
+            Result = new JobResult();
         }
 
         /// <summary>
@@ -43,7 +46,8 @@ namespace SiegeApi.Data
             Delay = delay;
             Time = seconds;
             IsSitemap = false;
-            Urls = new List<string>();
+            Urls = new List<Url>();
+            Result = new JobResult();
         }
 
         /// <summary>
@@ -65,7 +69,8 @@ namespace SiegeApi.Data
             Delay = delay;
             Time = Convert.ToInt32(span.TotalSeconds);
             IsSitemap = false;
-            Urls = new List<string>();
+            Urls = new List<Url>();
+            Result = new JobResult();
         }
 
         /// <summary>
@@ -75,10 +80,27 @@ namespace SiegeApi.Data
         public virtual int Delay { get; protected set; }
 
         /// <summary>
+        /// Gets or sets the ID of this job.
+        /// </summary>
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
+        public int Id { get; set; }
+
+        /// <summary>
         /// Gets or sets a indicate that the provided URLs are site maps that need to be parsed to
         /// get final list of URLs.
         /// </summary>
         public bool IsSitemap { get; protected set; }
+
+        /// <summary>
+        /// Gets or sets the status of the job.
+        /// </summary>
+        public JobStatus JobStatus { get; set; }
+
+        /// <summary>
+        /// Gets the result of the Siege job.
+        /// </summary>
+        public JobResult Result { get; private set; }
 
         /// <summary>
         /// Gets or sets the number of seconds to run.
@@ -88,7 +110,7 @@ namespace SiegeApi.Data
         /// <summary>
         /// Gets or sets the list of URLs to use.
         /// </summary>
-        public List<string> Urls { get; protected set; }
+        public IList<Url> Urls { get; protected set; }
 
         /// <summary>
         /// Gets or sets the number of simulated users.
@@ -101,7 +123,12 @@ namespace SiegeApi.Data
         /// <param name="url">The URL.</param>
         public virtual void AddUrl(string url)
         {
-            Urls.Add(url);
+            var item = new Url()
+            {
+                Location = url
+            };
+
+            Urls.Add(item);
         }
 
         /// <summary>
@@ -110,7 +137,7 @@ namespace SiegeApi.Data
         /// <param name="urls">The URL list.</param>
         public virtual void AddUrls(IEnumerable<string> urls)
         {
-            Urls.AddRange(urls);
+            ((List<string>)Urls).AddRange(urls);
         }
 
         public virtual void SetIsSitemap(bool sitemap)
