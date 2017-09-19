@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace SiegeApi.Data
@@ -26,6 +28,13 @@ namespace SiegeApi.Data
         /// Gets or sets the number of times the server returned a code greater than 400.
         /// </summary>
         public int FailedTransactions { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ID of this job result.
+        /// </summary>
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
+        public int Id { get; set; }
 
         /// <summary>
         /// Gets or sets the duration of the longest transaction in seconds.
