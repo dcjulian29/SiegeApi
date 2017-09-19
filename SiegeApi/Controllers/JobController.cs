@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SiegeApi.Data;
 
 namespace SiegeApi.Controllers
@@ -10,6 +11,16 @@ namespace SiegeApi.Controllers
     [Route("[controller]")]
     public class JobController : Controller
     {
+        private readonly JobContext _context;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JobController"/> class.
+        /// </summary>
+        public JobController(JobContext context)
+        {
+            _context = context;
+        }
+
         /// <summary>
         /// Deletes a Job.
         /// </summary>
@@ -24,17 +35,9 @@ namespace SiegeApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IEnumerable<JobItem> Get()
+        public async Task<IEnumerable<Job>> Get()
         {
-            var jobList = new List<JobItem>();
-
-            jobList.Add(new JobItem
-            {
-                Id = 1,
-                JobStatus = JobStatus.Finished
-            });
-
-            return jobList;
+            return await _context.Jobs.ToListAsync();
         }
 
         /// <summary>
@@ -43,18 +46,20 @@ namespace SiegeApi.Controllers
         /// <param name="id">The Id of job to return results.</param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public JobResult Get(int id)
+        public async Task<Job> Get(int id)
         {
-            var jobResult = new JobResult();
-
-            return jobResult;
+            return await _context.FindAsync<Job>(id);
         }
 
         // POST api/values
         [HttpPost]
-        public int Post([FromBody]Job job)
+        public async Task<int> Post([FromBody]Job job)
         {
-            return 0;
+            _context.Add(job);
+
+            await _context.SaveChangesAsync();
+
+            return job.Id;
         }
     }
 }
