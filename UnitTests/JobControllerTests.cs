@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Http;
 using Microsoft.AspNetCore.Http.Internal;
+using Microsoft.EntityFrameworkCore;
 using SiegeApi.Controllers;
 using SiegeApi.Data;
 using Xunit;
@@ -16,6 +17,16 @@ namespace UnitTests
         Justification = "Test Suites do not need XML Documentation.")]
     public class JobControllerTests
     {
+        public readonly JobContext _context;
+
+        public JobControllerTests()
+        {
+            var builder = new DbContextOptionsBuilder<JobContext>()
+                .UseInMemoryDatabase("SiegeApi");
+
+            _context = new JobContext(builder.Options);
+        }
+
         [Fact]
         public void Post_Should_StoreJob_When_GivenAValidJob()
         {
@@ -23,14 +34,14 @@ namespace UnitTests
             var job = new Job();
             job.AddUrl("http://localhost");
 
-            var controller = new JobController();
+            var controller = new JobController(_context);
 
             // Act
-            var id = controller.Post(job);
-            var storedJob = controller.Get().FirstOrDefault(x => x.Id == id);
+            var id = controller.Post(job).Result;
+            var storedJob = controller.Get(id).Result;
 
             // Assert
-            Assert.NotNull(storedJob);
+            Assert.Equal(id, storedJob.Id);
         }
     }
 }
