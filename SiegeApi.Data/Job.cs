@@ -84,7 +84,7 @@ namespace SiegeApi.Data
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Gets or sets a indicate that the provided URLs are site maps that need to be parsed to

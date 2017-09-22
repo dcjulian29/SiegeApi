@@ -46,14 +46,14 @@ namespace SiegeApi.Controllers
         /// <param name="id">The Id of job to return results.</param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public async Task<Job> Get(int id)
+        public async Task<Job> Get(long id)
         {
             return await _context.FindAsync<Job>(id);
         }
 
         // POST api/values
         [HttpPost]
-        public async Task<int> Post([FromBody]Job job)
+        public async Task<long> Post([FromBody]Job job)
         {
             _context.Add(job);
 
