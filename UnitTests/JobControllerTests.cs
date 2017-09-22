@@ -28,6 +28,23 @@ namespace UnitTests
         }
 
         [Fact]
+        public void Post_Should_SetJobStatusQueued_When_InitialluPosted()
+        {
+            // Arrange
+            var job = new Job();
+            job.AddUrl("http://localhost");
+
+            var controller = new JobController(_context);
+
+            // Act
+            var id = controller.Post(job).Result;
+            var storedJob = controller.Get(id).Result;
+
+            // Assert
+            Assert.Equal(JobStatus.Queued, storedJob.JobStatus);
+        }
+
+        [Fact]
         public void Post_Should_StoreJob_When_GivenAValidJob()
         {
             // Arrange
